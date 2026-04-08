@@ -456,28 +456,8 @@ OpenEnv AgentOps
 
 ---
 
-## Contributors
+## Developer : TEAM ANTI-GRAVITY
 
-<table>
-<tr>
-<td align="center">
-<a href="https://github.com/MohammadSakibAhmad0874">
-<img src="https://github.com/MohammadSakibAhmad0874.png" width="80" height="80" style="border-radius:50%" alt="Mohammad Sakib Ahmad" /><br/>
-<strong>Mohammad Sakib Ahmad</strong><br/>
-<sub>Backend Architecture · Environment Design</sub>
-</a>
-</td>
-<td align="center">
-<a href="https://github.com/adi4sure">
-<img src="https://github.com/adi4sure.png" width="80" height="80" style="border-radius:50%" alt="adi4sure" /><br/>
-<strong>adi4sure</strong><br/>
-<sub>Frontend Dashboard · Evaluation System</sub>
-</a>
-</td>
-</tr>
-</table>
-
----
 
 ## License
 
