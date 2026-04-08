@@ -1,3 +1,12 @@
+---
+title: OpenEnv AgentOps
+emoji: 🤖
+colorFrom: indigo
+colorTo: purple
+sdk: docker
+app_port: 8000
+pinned: false
+---
 # OpenEnv AgentOps
 
 <div align="center">
