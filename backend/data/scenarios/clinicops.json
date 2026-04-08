@@ -1,0 +1,58 @@
+{
+  "scenarios": [
+    {
+      "id": "CO-001",
+      "title": "Emergency Triage — Mixed Urgency Queue",
+      "patients": [
+        {
+          "id": "PAT-001",
+          "name": "James Okafor",
+          "age": 67,
+          "complaint": "Severe chest pain and shortness of breath, onset 30 minutes ago",
+          "urgency_label": "emergency",
+          "true_urgency": 5,
+          "last_visit": "2024-01-10"
+        },
+        {
+          "id": "PAT-002",
+          "name": "Linda Park",
+          "age": 34,
+          "complaint": "Annual wellness checkup — no urgent symptoms",
+          "urgency_label": "routine",
+          "true_urgency": 1,
+          "last_visit": "2023-03-15"
+        },
+        {
+          "id": "PAT-003",
+          "name": "Carlos Rivera",
+          "age": 52,
+          "complaint": "Post-surgical follow-up, knee replacement 6 days ago, wound looks inflamed",
+          "urgency_label": "urgent",
+          "true_urgency": 4,
+          "last_visit": "2024-03-09"
+        },
+        {
+          "id": "PAT-004",
+          "name": "Amara Singh",
+          "age": 28,
+          "complaint": "Prescription refill for ongoing hypertension medication",
+          "urgency_label": "low",
+          "true_urgency": 2,
+          "last_visit": "2024-02-01"
+        }
+      ],
+      "available_slots": [
+        {"id": "SLOT-001", "label": "Immediate — Emergency Room", "urgency_min": 4},
+        {"id": "SLOT-002", "label": "Tomorrow 9 AM — Dr. Reyes", "urgency_min": 3},
+        {"id": "SLOT-003", "label": "Tomorrow 2 PM — Dr. Choi", "urgency_min": 2},
+        {"id": "SLOT-004", "label": "Next Monday — Dr. Patel", "urgency_min": 1}
+      ],
+      "correct_scheduling": {
+        "PAT-001": "SLOT-001",
+        "PAT-002": "SLOT-004",
+        "PAT-003": "SLOT-002",
+        "PAT-004": "SLOT-003"
+      }
+    }
+  ]
+}

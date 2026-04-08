@@ -1,0 +1,346 @@
+# openenv.yaml
+# OpenEnv Specification Manifest — AgentOps Platform v1.0.0
+# This file defines the OpenEnv-compliant interface for all environments.
+
+spec_version: "1.0.0"
+name: "OpenEnv AgentOps"
+description: >
+  Multi-domain AI agent evaluation platform. Each environment simulates
+  a realistic business workflow where an AI agent must complete tasks
+  using discrete actions with deterministic grading.
+
+# ─── Platform Metadata ──────────────────────────────────────────────────────
+platform:
+  version: "1.0.0"
+  authors:
+    - name: "Mohammad Sakib Ahmad"
+      github: "MohammadSakibAhmad0874"
+      role: "Backend Architecture & Environment Design"
+    - name: "adi4sure"
+      github: "adi4sure"
+      role: "Frontend Dashboard & Evaluation System"
+  license: "MIT"
+  repository: "https://github.com/MohammadSakibAhmad0874/Zero-Gravity"
+
+# ─── Base API Interface (all environments implement this) ────────────────────
+interface:
+  base_class: "core.base_env.BaseEnvironment"
+  required_methods:
+    - name: "reset"
+      signature: "reset(scenario_id?: str) -> dict"
+      description: "Initialize/restart the environment. Returns initial observation."
+    - name: "step"
+      signature: "step(action: Action) -> StepResult"
+      description: "Execute one action. Returns observation, reward, done, info."
+    - name: "state"
+      signature: "state() -> dict"
+      description: "Return the current full observation state."
+    - name: "score"
+      signature: "score() -> ScoreCard"
+      description: "Return the current scorecard with breakdown."
+
+# ─── Reward System ───────────────────────────────────────────────────────────
+reward:
+  range: [0.0, 100.0]  # normalized to 0–100
+  partial_progress: true
+  penalties:
+    invalid_action: -5.0
+    repeated_question: -2.0
+    wrong_resolution: -10.0
+    unsafe_action: -20.0
+    reclassification: -2.0
+    max_steps_exceeded: -5.0
+  grade_thresholds:
+    "A+": 95
+    "A": 85
+    "B": 75
+    "C": 65
+    "D": 50
+    "F": 0
+
+# ─── Environments ────────────────────────────────────────────────────────────
+environments:
+
+  - id: "supportdesk"
+    name: "SupportDesk"
+    tag: "Hero Module"
+    category: "Customer Operations"
+    difficulty: "medium"
+    max_steps: 15
+    max_score: 100.0
+    scenario_count: 5
+    description: >
+      Customer support ticket resolution. Agent must classify the ticket,
+      gather information, and apply the correct resolution (resolve/refund/escalate).
+      SLA timer adds time pressure.
+
+    observation_space:
+      type: object
+      fields:
+        ticket:
+          type: object
+          fields:
+            id: {type: string}
+            subject: {type: string}
+            body: {type: string}
+            status: {type: string, enum: [open, classified, resolved, escalated]}
+            category: {type: string, enum: [account, billing, shipping, technical, general]}
+            priority: {type: string, enum: [P1, P2, P3]}
+            created_at: {type: string, format: datetime}
+        customer:
+          type: object
+          fields:
+            name: {type: string}
+            email: {type: string}
+            tier: {type: string, enum: [standard, premium, enterprise]}
+            account_age_days: {type: integer}
+            order_history: {type: array}
+        conversation:
+          type: array
+          items:
+            role: {type: string, enum: [agent, customer]}
+            content: {type: string}
+            timestamp: {type: string}
+        sla_remaining_minutes: {type: number}
+        knowledge_base: {type: array}
+        step_count: {type: integer}
+        status: {type: string}
+
+    action_space:
+      actions:
+        - name: classify
+          parameters:
+            category: {type: string, required: true, enum: [account, billing, shipping, technical, general]}
+            priority: {type: string, required: true, enum: [P1, P2, P3]}
+          reward_range: [-2, +25]
+          description: "Classify the ticket by category and priority."
+
+        - name: ask_question
+          parameters:
+            question: {type: string, required: true, min_length: 10}
+          reward_range: [-2, +2]
+          description: "Ask the customer a clarifying question. Penalizes repeats."
+
+        - name: resolve
+          parameters:
+            resolution_note: {type: string, required: true, min_length: 20}
+          reward_range: [-20, +55]
+          description: "Mark ticket as resolved with a resolution note."
+          terminal: true
+
+        - name: refund
+          parameters:
+            amount: {type: number, required: true, min: 0}
+            reason: {type: string, required: true}
+          reward_range: [-20, +50]
+          description: "Process a refund for the customer."
+          terminal: true
+
+        - name: escalate
+          parameters:
+            team: {type: string, required: true}
+            reason: {type: string, required: true}
+          reward_range: [-15, +50]
+          description: "Escalate ticket to a specialist team."
+          terminal: true
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - id: "cybersoc"
+    name: "CyberSOC"
+    tag: "Security"
+    category: "Security Operations"
+    difficulty: "hard"
+    max_steps: 20
+    max_score: 100.0
+    scenario_count: 1
+    description: >
+      Security Operations Center — classify, escalate, or dismiss security
+      alerts across a simulated production network. Agent must identify
+      true positives and avoid false positive escalations.
+
+    observation_space:
+      type: object
+      fields:
+        alerts:
+          type: array
+          items:
+            alert_id: {type: string}
+            alert_type: {type: string}
+            severity: {type: string, enum: [low, medium, high, critical]}
+            source_ip: {type: string}
+            description: {type: string}
+            timestamp: {type: string}
+        processed_alert_ids: {type: array, items: {type: string}}
+        network_status: {type: object}
+        step_count: {type: integer}
+
+    action_space:
+      actions:
+        - name: classify_alert
+          parameters:
+            alert_id: {type: string, required: true}
+            severity: {type: string, required: true, enum: [low, medium, high, critical]}
+          reward_range: [-10, +20]
+          description: "Classify security alert severity."
+
+        - name: escalate
+          parameters:
+            alert_id: {type: string, required: true}
+            team: {type: string, required: true}
+          reward_range: [-15, +25]
+          description: "Escalate alert to security team."
+
+        - name: dismiss
+          parameters:
+            alert_id: {type: string, required: true}
+            reason: {type: string, required: true}
+          reward_range: [-15, +15]
+          description: "Dismiss a false positive alert."
+
+        - name: block_ip
+          parameters:
+            alert_id: {type: string, required: true}
+            ip: {type: string, required: true}
+          reward_range: [-20, +30]
+          description: "Block a malicious IP address."
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - id: "refundops"
+    name: "RefundOps"
+    tag: "Finance"
+    category: "Finance & Compliance"
+    difficulty: "easy"
+    max_steps: 10
+    max_score: 100.0
+    scenario_count: 3
+    description: >
+      Policy-based refund adjudication. Agent reviews return requests
+      against business rules (time window, evidence, amount) and must
+      approve, deny, or request more information.
+
+    observation_space:
+      type: object
+      fields:
+        refund_requests:
+          type: array
+          items:
+            id: {type: string}
+            customer_name: {type: string}
+            amount: {type: number}
+            reason: {type: string}
+            days_since_purchase: {type: integer}
+            has_evidence: {type: boolean}
+            policy_eligible: {type: boolean}
+        processed_ids: {type: array}
+        policy:
+          type: object
+          fields:
+            return_window_days: {type: integer}
+            max_auto_approve: {type: number}
+
+    action_space:
+      actions:
+        - name: approve
+          parameters:
+            note: {type: string, required: true}
+          reward_range: [-20, +40]
+          description: "Approve the refund request."
+          terminal: true
+
+        - name: deny
+          parameters:
+            reason: {type: string, required: true}
+          reward_range: [-20, +30]
+          description: "Deny the refund request with reason."
+          terminal: true
+
+        - name: request_info
+          parameters:
+            info_needed: {type: string, required: true}
+          reward_range: [-5, +10]
+          description: "Request additional information before deciding."
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  - id: "clinicops"
+    name: "ClinicOps"
+    tag: "Healthcare"
+    category: "Healthcare"
+    difficulty: "medium"
+    max_steps: 15
+    max_score: 100.0
+    scenario_count: 1
+    description: >
+      Clinic scheduling system — triage patients by medical urgency and
+      assign optimal appointment slots. Higher urgency patients should
+      receive earlier slots.
+
+    observation_space:
+      type: object
+      fields:
+        patients:
+          type: array
+          items:
+            patient_id: {type: string}
+            name: {type: string}
+            symptoms: {type: string}
+            urgency_level: {type: integer, minimum: 1, maximum: 10}
+            preferred_time: {type: string}
+        available_slots:
+          type: array
+          items:
+            slot_id: {type: string}
+            time: {type: string}
+            capacity: {type: integer}
+        scheduled_patient_ids: {type: array}
+        step_count: {type: integer}
+
+    action_space:
+      actions:
+        - name: triage
+          parameters:
+            patient_id: {type: string, required: true}
+            urgency_level: {type: integer, required: true, minimum: 1, maximum: 10}
+          reward_range: [-10, +20]
+          description: "Assess and assign urgency level to a patient."
+
+        - name: schedule
+          parameters:
+            patient_id: {type: string, required: true}
+            slot_id: {type: string, required: true}
+          reward_range: [-10, +25]
+          description: "Schedule patient into an available slot."
+
+        - name: reschedule
+          parameters:
+            patient_id: {type: string, required: true}
+            new_slot_id: {type: string, required: true}
+            reason: {type: string, required: true}
+          reward_range: [-5, +10]
+          description: "Move a patient to a different appointment slot."
+
+        - name: cancel
+          parameters:
+            patient_id: {type: string, required: true}
+            reason: {type: string, required: true}
+          reward_range: [-20, +5]
+          description: "Cancel a patient's appointment."
+
+# ─── Evaluation Protocol ─────────────────────────────────────────────────────
+evaluation:
+  method: "deterministic_grading"
+  runs_per_env: 1
+  baseline_agent: "baseline_agent.py"
+  output_format: "scorecard_json"
+  reproducibility: "same_scenario_id_gives_same_result"
+
+# ─── Modes ───────────────────────────────────────────────────────────────────
+modes:
+  demo:
+    description: "Uses bundled sample scenarios. No external data required."
+    default: true
+  live:
+    description: "Uses real user-submitted data from the live ingestion API."
+    requires: ["POST /api/v1/live/tickets or /alerts or /emails"]

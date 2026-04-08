@@ -1,0 +1,87 @@
+{
+  "session_id": "06d337ca-a8e6-42f6-bf43-23b66affd88d",
+  "env_id": "cybersoc",
+  "scenario_id": "CS-001",
+  "state": {
+    "alerts": [
+      {
+        "id": "ALT-001",
+        "type": "SQL Injection",
+        "source_ip": "203.0.113.42",
+        "target": "prod-db-01.internal",
+        "timestamp": "2024-03-15T02:14:32Z",
+        "payload_snippet": "' OR 1=1; DROP TABLE users; --",
+        "affected_systems": [
+          "Database",
+          "Auth Layer"
+        ],
+        "true_severity": "critical",
+        "true_label": "malicious"
+      },
+      {
+        "id": "ALT-002",
+        "type": "Port Scan",
+        "source_ip": "10.0.0.5",
+        "target": "internal-network",
+        "timestamp": "2024-03-15T02:15:00Z",
+        "payload_snippet": "NMAP SYN scan, 1000 ports",
+        "affected_systems": [],
+        "true_severity": "info",
+        "true_label": "false_positive",
+        "note": "This is the monitoring system running daily diagnostics"
+      },
+      {
+        "id": "ALT-003",
+        "type": "Brute Force SSH",
+        "source_ip": "185.220.101.17",
+        "target": "bastion-host.prod",
+        "timestamp": "2024-03-15T02:16:10Z",
+        "payload_snippet": "847 failed auth attempts in 90 seconds",
+        "affected_systems": [
+          "SSH Gateway"
+        ],
+        "true_severity": "high",
+        "true_label": "malicious"
+      },
+      {
+        "id": "ALT-004",
+        "type": "Unusual Geo Login",
+        "source_ip": "196.216.2.43",
+        "target": "admin-portal",
+        "timestamp": "2024-03-15T02:18:00Z",
+        "payload_snippet": "Login from Lagos, Nigeria \u2014 user normally logs in from NYC",
+        "affected_systems": [
+          "Admin Portal"
+        ],
+        "true_severity": "medium",
+        "true_label": "investigate",
+        "note": "User confirmed on Slack they are travelling this week"
+      },
+      {
+        "id": "ALT-005",
+        "type": "Expired SSL Certificate",
+        "source_ip": null,
+        "target": "marketing-site.com",
+        "timestamp": "2024-03-15T02:20:00Z",
+        "payload_snippet": "Certificate expired 2024-03-14, 0 days ago",
+        "affected_systems": [
+          "Marketing Website"
+        ],
+        "true_severity": "low",
+        "true_label": "maintenance"
+      }
+    ],
+    "action_queue": [],
+    "blocked_ips": [],
+    "escalated_alerts": [],
+    "dismissed_alerts": [],
+    "step_count": 0
+  },
+  "action_log": [],
+  "reward_log": [],
+  "total_reward": 0.0,
+  "steps": 0,
+  "invalid_actions": 0,
+  "done": false,
+  "updated_at": "2026-04-07T17:36:53.475977"
+}

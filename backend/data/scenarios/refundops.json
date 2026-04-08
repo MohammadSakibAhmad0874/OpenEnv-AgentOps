@@ -1,0 +1,72 @@
+{
+  "scenarios": [
+    {
+      "id": "RO-001",
+      "title": "Damaged Item — Within Policy Window",
+      "request": {
+        "id": "REF-2024-001",
+        "order_id": "ORD-8821",
+        "product": "Ergonomic Chair Pro",
+        "amount": 349.99,
+        "reason": "Item arrived with broken armrest. Unusable.",
+        "evidence": ["photo_damage_001.jpg", "photo_damage_002.jpg"],
+        "purchase_date": "2024-02-20",
+        "request_date": "2024-03-15",
+        "days_since_purchase": 24
+      },
+      "policy": {
+        "return_window_days": 30,
+        "requires_evidence": true,
+        "max_refund_without_approval": 500.0,
+        "damaged_items_policy": "Full refund for items damaged in transit or manufacturing defect within 30 days"
+      },
+      "correct_action": "approve",
+      "correct_reason_keywords": ["within policy", "damaged", "30 days", "evidence provided", "full refund"]
+    },
+    {
+      "id": "RO-002",
+      "title": "Late Return Request — Outside Window",
+      "request": {
+        "id": "REF-2024-002",
+        "order_id": "ORD-7103",
+        "product": "Mechanical Keyboard TKL",
+        "amount": 129.00,
+        "reason": "Changed my mind, prefer a different brand",
+        "evidence": [],
+        "purchase_date": "2023-11-30",
+        "request_date": "2024-03-15",
+        "days_since_purchase": 106
+      },
+      "policy": {
+        "return_window_days": 30,
+        "requires_evidence": false,
+        "max_refund_without_approval": 500.0,
+        "change_of_mind_policy": "Change of mind returns accepted within 30 days only. No exceptions beyond 90 days."
+      },
+      "correct_action": "deny",
+      "correct_reason_keywords": ["outside", "return window", "30 days", "policy", "106 days", "expired"]
+    },
+    {
+      "id": "RO-003",
+      "title": "Vague Claim — More Info Needed",
+      "request": {
+        "id": "REF-2024-003",
+        "order_id": "ORD-9002",
+        "product": "Wireless Headphones",
+        "amount": 199.00,
+        "reason": "It doesn't work properly",
+        "evidence": [],
+        "purchase_date": "2024-03-01",
+        "request_date": "2024-03-15",
+        "days_since_purchase": 14
+      },
+      "policy": {
+        "return_window_days": 30,
+        "requires_evidence": true,
+        "defect_policy": "Defective items qualify for full refund or replacement. Defect must be clearly described and documented."
+      },
+      "correct_action": "request_info",
+      "correct_reason_keywords": ["describe", "specific issue", "video", "photo", "defect details", "clarify"]
+    }
+  ]
+}

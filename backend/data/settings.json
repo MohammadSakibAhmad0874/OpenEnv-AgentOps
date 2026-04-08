@@ -1,0 +1,10 @@
+{
+  "mode": "live",
+  "version": "1.0.0",
+  "updated_at": "2026-04-07T18:17:01.628464",
+  "features": {
+    "live_data": true,
+    "replay": true,
+    "leaderboard": true
+  }
+}
