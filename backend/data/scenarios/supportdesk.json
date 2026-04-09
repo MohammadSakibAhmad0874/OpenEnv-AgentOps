@@ -1,0 +1,175 @@
+{
+  "scenarios": [
+    {
+      "id": "SD-001",
+      "title": "Account Locked — Premium User",
+      "ticket": {
+        "id": "TKT-2024-001",
+        "subject": "Cannot access my premium account — urgent",
+        "body": "I've been locked out of my account for 3 hours. I have an important client presentation tomorrow that requires access to my premium analytics dashboard. My subscription renews next week at $299. I'm seriously considering cancelling if this isn't resolved today.",
+        "status": "open",
+        "category": null,
+        "priority": null,
+        "created_at": "2024-03-15T09:00:00Z",
+        "channel": "email"
+      },
+      "customer": {
+        "id": "CUST-4821",
+        "name": "Sarah Chen",
+        "email": "sarah.chen@techcorp.io",
+        "tier": "premium",
+        "join_date": "2022-06-15",
+        "account_status": "locked",
+        "lifetime_value": 548.00,
+        "order_history": [
+          {"order_id": "ORD-9201", "date": "2024-02-01", "product": "Premium Plan Annual", "amount": 299.00, "status": "active"},
+          {"order_id": "ORD-8103", "date": "2023-08-15", "product": "Premium Plan Annual", "amount": 249.00, "status": "completed"}
+        ]
+      },
+      "sla_minutes": 60,
+      "correct_classification": {"category": "account", "priority": "P1"},
+      "correct_resolution": "resolve",
+      "resolution_keywords": ["unlock", "password reset", "access restored", "two-factor", "2fa", "account reactivated"],
+      "knowledge_base_ids": ["KB-001", "KB-005"],
+      "unsafe_actions": {"refund": "No financial loss — refund would be inappropriate here"}
+    },
+    {
+      "id": "SD-002",
+      "title": "Wrong Item Received",
+      "ticket": {
+        "id": "TKT-2024-002",
+        "subject": "Received completely wrong order — I ordered a laptop stand",
+        "body": "I placed order ORD-7734 for a premium laptop stand ($89.99) but received a phone case instead. I need the laptop stand urgently for a home office setup. Please either send the correct item or refund me.",
+        "status": "open",
+        "category": null,
+        "priority": null,
+        "created_at": "2024-03-15T10:30:00Z",
+        "channel": "chat"
+      },
+      "customer": {
+        "id": "CUST-3312",
+        "name": "Marcus Johnson",
+        "email": "marcus.j@gmail.com",
+        "tier": "standard",
+        "join_date": "2023-11-02",
+        "account_status": "active",
+        "lifetime_value": 234.50,
+        "order_history": [
+          {"order_id": "ORD-7734", "date": "2024-03-10", "product": "Laptop Stand Pro", "amount": 89.99, "status": "delivered"},
+          {"order_id": "ORD-6201", "date": "2024-01-20", "product": "USB Hub 7-Port", "amount": 45.00, "status": "completed"}
+        ]
+      },
+      "sla_minutes": 240,
+      "correct_classification": {"category": "shipping", "priority": "P2"},
+      "correct_resolution": "refund",
+      "resolution_keywords": ["refund", "replacement", "correct item", "return label", "85", "86", "87", "88", "89", "90"],
+      "knowledge_base_ids": ["KB-003"],
+      "unsafe_actions": {}
+    },
+    {
+      "id": "SD-003",
+      "title": "Duplicate Billing — Enterprise Account",
+      "ticket": {
+        "id": "TKT-2024-003",
+        "subject": "Charged twice for enterprise subscription — $1,200 discrepancy",
+        "body": "Our finance team flagged two identical charges of $599 each on March 1st for our enterprise subscription. We should only have been charged once. This is a significant amount and I need resolution today as it's affecting our monthly reconciliation. Order IDs: ORD-ENT-0301-A and ORD-ENT-0301-B.",
+        "status": "open",
+        "category": null,
+        "priority": null,
+        "created_at": "2024-03-15T08:15:00Z",
+        "channel": "phone"
+      },
+      "customer": {
+        "id": "CUST-0091",
+        "name": "Rebecca Torres",
+        "email": "r.torres@acme-corp.com",
+        "tier": "enterprise",
+        "join_date": "2021-03-01",
+        "account_status": "active",
+        "lifetime_value": 14376.00,
+        "order_history": [
+          {"order_id": "ORD-ENT-0301-A", "date": "2024-03-01", "product": "Enterprise Plan Monthly", "amount": 599.00, "status": "charged"},
+          {"order_id": "ORD-ENT-0301-B", "date": "2024-03-01", "product": "Enterprise Plan Monthly", "amount": 599.00, "status": "charged"}
+        ]
+      },
+      "sla_minutes": 60,
+      "correct_classification": {"category": "billing", "priority": "P1"},
+      "correct_resolution": "refund",
+      "resolution_keywords": ["refund", "duplicate", "599", "overcharge", "credited", "billing error"],
+      "knowledge_base_ids": ["KB-002"],
+      "unsafe_actions": {}
+    },
+    {
+      "id": "SD-004",
+      "title": "API Integration Broken — Developer",
+      "ticket": {
+        "id": "TKT-2024-004",
+        "subject": "REST API returning 503 errors — production app down",
+        "body": "Since the platform update at 2am UTC our API integration has been returning 503 errors consistently. Endpoint: POST /api/v2/analytics/export. Our production app serves 5,000 users and they cannot export reports. Error log: ServiceUnavailableException at line 42. This is a P1 for us.",
+        "status": "open",
+        "category": null,
+        "priority": null,
+        "created_at": "2024-03-15T06:00:00Z",
+        "channel": "api"
+      },
+      "customer": {
+        "id": "CUST-7743",
+        "name": "Dev Team — Nexus Labs",
+        "email": "devops@nexuslabs.io",
+        "tier": "premium",
+        "join_date": "2023-01-10",
+        "account_status": "active",
+        "lifetime_value": 3588.00,
+        "order_history": [
+          {"order_id": "ORD-DEV-2401", "date": "2024-01-01", "product": "Developer Premium API", "amount": 299.00, "status": "active"}
+        ]
+      },
+      "sla_minutes": 60,
+      "correct_classification": {"category": "technical", "priority": "P1"},
+      "correct_resolution": "escalate",
+      "resolution_keywords": ["engineering", "platform team", "API team", "escalated", "incident", "known issue"],
+      "knowledge_base_ids": ["KB-004"],
+      "unsafe_actions": {"resolve": "Do not resolve without confirming engineering has fixed the API"}
+    },
+    {
+      "id": "SD-005",
+      "title": "Feature Request — Standard User",
+      "ticket": {
+        "id": "TKT-2024-005",
+        "subject": "Can I export reports to Excel format?",
+        "body": "Hi, I'm using the standard plan and I need to export my monthly reports to Excel (.xlsx) format. I can only see CSV and PDF options. Is Excel export available? If not, is there a workaround? I'm happy to upgrade if that feature is on a higher tier.",
+        "status": "open",
+        "category": null,
+        "priority": null,
+        "created_at": "2024-03-15T14:00:00Z",
+        "channel": "email"
+      },
+      "customer": {
+        "id": "CUST-9988",
+        "name": "Tom Nguyen",
+        "email": "tom.nguyen@smallbiz.co",
+        "tier": "standard",
+        "join_date": "2024-01-05",
+        "account_status": "active",
+        "lifetime_value": 59.00,
+        "order_history": [
+          {"order_id": "ORD-5501", "date": "2024-01-05", "product": "Standard Plan Monthly", "amount": 29.00, "status": "active"}
+        ]
+      },
+      "sla_minutes": 480,
+      "correct_classification": {"category": "general", "priority": "P3"},
+      "correct_resolution": "resolve",
+      "resolution_keywords": ["premium", "upgrade", "excel", "xlsx", "workaround", "csv", "feature available"],
+      "knowledge_base_ids": ["KB-006"],
+      "unsafe_actions": {"refund": "No refund — this is just a feature question"}
+    }
+  ],
+  "knowledge_base": [
+    {"id": "KB-001", "title": "Account Unlock Procedure", "category": "account", "content": "To unlock accounts: 1. Verify identity via registered email. 2. Initiate password reset. 3. Disable 2FA temporarily if device lost. 4. Re-enable with new device. SLA: P1 accounts unlocked within 1 hour."},
+    {"id": "KB-002", "title": "Duplicate Charge Resolution", "category": "billing", "content": "For duplicate charges: 1. Confirm both transactions in payment processor. 2. Issue refund for one charge within 1 business day. 3. Log incident in billing system. 4. Send confirmation email. Enterprise customers get priority processing."},
+    {"id": "KB-003", "title": "Wrong Item Return & Refund Policy", "category": "shipping", "content": "Wrong items: 1. Issue prepaid return label. 2. Refund full order amount OR dispatch correct item per customer preference. 3. Customer keeps wrong item if <$20 value. 4. Resolution within 48 hours."},
+    {"id": "KB-004", "title": "API Outage — Escalation Protocol", "category": "technical", "content": "For API outages affecting production: 1. Immediately open P1 incident ticket. 2. Escalate to Platform Engineering team. 3. Timeline: 15-minute bridge call initiated. 4. Status page updated within 30 minutes. Do NOT resolve until engineering confirms fix."},
+    {"id": "KB-005", "title": "Premium Account Benefits & Concierge", "category": "account", "content": "Premium users get: dedicated support line, 1-hour SLA, concierge onboarding, and advanced analytics. Always thank premium users for their loyalty and offer a courtesy credit if SLA breached."},
+    {"id": "KB-006", "title": "Export Formats by Plan", "category": "general", "content": "Standard: CSV, PDF. Premium: CSV, PDF, Excel (.xlsx), Google Sheets. Enterprise: all formats + custom API export. Workaround for standard: download CSV and open in Excel. Offer upgrade if needed."}
+  ]
+}

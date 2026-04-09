@@ -1,0 +1,22 @@
+[project]
+name = "openenv-agentops"
+version = "1.0.0"
+description = "OpenEnv AgentOps multi-domain simulation platform"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "requests>=2.31.0",
+    "openenv-core>=0.2.0"
+]
+
+[project.scripts]
+server = "server.app:main"
+
+[tool.setuptools.packages.find]
+include = ["server*", "backend*"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

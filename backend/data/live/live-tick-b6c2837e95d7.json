@@ -1,0 +1,26 @@
+{
+  "id": "live-tick-b6c2837e95d7",
+  "type": "ticket",
+  "env_id": "supportdesk",
+  "submitted_at": "2026-04-07T18:17:45.431073",
+  "status": "pending",
+  "data": {
+    "ticket": {
+      "id": "TKT-7E95D7",
+      "subject": "refund",
+      "body": "refund not noty received",
+      "created_at": "2026-04-07T18:17:45.431095",
+      "status": "open",
+      "category": "shipping",
+      "priority": "P1",
+      "source": "web_form"
+    },
+    "customer": {
+      "name": "sakib",
+      "email": "mytypenoor@gmail.com",
+      "tier": "standard",
+      "account_age_days": 90,
+      "order_history": []
+    }
+  }
+}
